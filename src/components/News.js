@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import NewsItem from './NewsItem'
+import Spinner from './Spinner';
 
 export default class News extends Component {
   
@@ -271,34 +272,45 @@ export default class News extends Component {
 // console.log("news component constructor")
 
 this.state={
-    article:[],
-    page:1,
-    loading:false,
-    totalResults:0
+  article:[],
+  page:1,
+  loading:false,
+  totalResults:0
   
 }
+
   }
 
  async componentDidMount(){
+  
+  this.setState({loading:true})
 
-  const url = `https://newsapi.org/v2/top-headlines?country=in&apiKey=ef5199061e4c42e39908b1343ecebf1e&page=1`;
-  const data = await fetch(url)
+   const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&apiKey=ef5199061e4c42e39908b1343ecebf1e&page=1&pageSize=${this.props.pageSize}}&category=${this.props.category}`;
+    
+   
+   const data = await fetch(url)
+  
   const realData = await data.json();
 this.setState({
   article:realData.articles,
-  totalResults:realData.totalResults
+  totalResults:realData.totalResults,
+  loading:false
 })
   // console.log(this.state.totalResults);
 
   }
    handlePreClick = async()=>{
+    this.setState({
+      loading:true
+    });
      
-     const url =`https://newsapi.org/v2/top-headlines?country=in&apiKey=ef5199061e4c42e39908b1343ecebf1e&page=${this.state.page-1}`;
+     const url =`https://newsapi.org/v2/top-headlines?country=${this.props.country}&apiKey=ef5199061e4c42e39908b1343ecebf1e&page=${this.state.page-1}&pageSize=${this.props.pageSize}}&category=${this.props.category}`;
      const data = await fetch(url)
      const realData = await data.json();
      this.setState({
        article:realData.articles,
-       page:this.state.page===1?this.state.page:this.state.page-1
+       page:this.state.page===1?this.state.page:this.state.page-1,
+       loading:false
        
       })
       
@@ -306,16 +318,19 @@ this.setState({
       
     }
     handleNextClick = async()=>{
+     
+      // console.log("next clicked");
       
-  console.log("next clicked");
-      
+      this.setState({loading:true})
 
-  const url =`https://newsapi.org/v2/top-headlines?country=in&apiKey=ef5199061e4c42e39908b1343ecebf1e&page=${this.state.page+1}`;
+      const url =`https://newsapi.org/v2/top-headlines?country=us&apiKey=ef5199061e4c42e39908b1343ecebf1e&page=${this.state.page+1}&pageSize=${this.props.pageSize}}&category=${this.props.category}`;
+   
   const data = await fetch(url)
   const realData = await data.json();
   this.setState({
     article:realData.articles,
-    page:this.state.page + 1
+    page:this.state.page + 1,
+    loading:false
   })
   console.log(this.state.page);
 
@@ -327,15 +342,18 @@ this.setState({
           <>
            <div className=" my-3 container d-flex justify-content-between">  
                 <button type="button" disabled={this.state.page===1?true:false} className="btn btn-info" onClick={this.handlePreClick} >&larr; Previous</button>
-                <button type="button" disabled={this.state.page===Math.ceil(this.state.totalResults/20)} className="btn btn-info"  onClick={this.handleNextClick}>Next &rarr;</button>
+                <button type="button" disabled={this.state.page===Math.ceil(this.state.totalResults/this.props.pageSize)} className="btn btn-info"  onClick={this.handleNextClick}>Next &rarr;</button>
 
                 </div>
 
           <div className="container my-5">
       <h2>NewsMonkey- Top Headlines</h2>
+
+      {this.state.loading && <Spinner/>}
+
                <div className="row">
                    
-                {
+                {!this.state.loading &&
                   this.state.article.map((element)=>{
 
                     return(<div className="col-md-4" key={element.url}><NewsItem description={element.description?element.description.slice(0,88):element.title} title={element.title?element.title.slice(0,45):element.title} imageUrl={element.urlToImage} newsUrl={element.url} /></div>)
@@ -352,7 +370,7 @@ this.setState({
 
                 <div className=" my-3 container d-flex justify-content-between">  
                 <button type="button" disabled={this.state.page===1} className="btn btn-info" onClick={this.handlePreClick} >&larr; Previous</button>
-                <button type="button" disabled={this.state.page===Math.ceil(this.state.totalResults/20)} className="btn btn-info"  onClick={this.handleNextClick}>Next &rarr;</button>
+                <button type="button" disabled={this.state.page===Math.ceil(this.state.totalResults/this.props.pageSize)} className="btn btn-info"  onClick={this.handleNextClick}>Next &rarr;</button>
 
                 </div>
 
