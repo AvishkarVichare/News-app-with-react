@@ -307,11 +307,6 @@ this.setState({
     }
     handleNextClick = async()=>{
       
-
-      if(this.state.page===Math.ceil(this.state.totalResults/20)){
-
-      }
-else{
   console.log("next clicked");
       
 
@@ -323,7 +318,7 @@ else{
     page:this.state.page + 1
   })
   console.log(this.state.page);
-}
+
       
   }
   
@@ -332,7 +327,7 @@ else{
           <>
            <div className=" my-3 container d-flex justify-content-between">  
                 <button type="button" disabled={this.state.page===1?true:false} className="btn btn-info" onClick={this.handlePreClick} >&larr; Previous</button>
-                <button type="button" className="btn btn-info"  onClick={this.handleNextClick}>Next &rarr;</button>
+                <button type="button" disabled={this.state.page===Math.ceil(this.state.totalResults/20)} className="btn btn-info"  onClick={this.handleNextClick}>Next &rarr;</button>
 
                 </div>
 
@@ -357,7 +352,7 @@ else{
 
                 <div className=" my-3 container d-flex justify-content-between">  
                 <button type="button" disabled={this.state.page===1} className="btn btn-info" onClick={this.handlePreClick} >&larr; Previous</button>
-                <button type="button" className="btn btn-info"  onClick={this.handleNextClick}>Next &rarr;</button>
+                <button type="button" disabled={this.state.page===Math.ceil(this.state.totalResults/20)} className="btn btn-info"  onClick={this.handleNextClick}>Next &rarr;</button>
 
                 </div>
 
