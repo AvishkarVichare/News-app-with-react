@@ -31,7 +31,7 @@ this.state={
 
 
  async componentDidMount(){
-
+  this.props.setProgress(10);
   this.setState({loading:true})
 
    const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&apiKey=ef5199061e4c42e39908b1343ecebf1e&page=1&pagesize=${this.props.pageSize}&category=${this.props.category}`;
@@ -45,6 +45,8 @@ this.setState({
   totalResults:realData.totalResults,
   loading:false
 })
+this.props.setProgress(100);
+
   console.log(this.state.totalResults);
 
   }
