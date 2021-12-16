@@ -1,4 +1,4 @@
-import '../spinner.css'
+import '../Css/spinner.css'
 import React, { Component } from 'react'
 
 export default class Spinner extends Component {
