@@ -1,8 +1,8 @@
 import '../Css/spinner.css'
-import React, { Component } from 'react'
+import React from 'react'
 
-export default class Spinner extends Component {
-    render() {
+const  Spinner = ()=> {
+
         return (
             
                 <div className="sk-cube-grid">
@@ -18,5 +18,6 @@ export default class Spinner extends Component {
 </div>
            
         )
-    }
+    
 }
+export default Spinner

@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 
-export default class NewsItem extends Component {
-    render() {
-      let {description,imageUrl, title, newsUrl} = this.props;
+const NewsItem = (props)=> {
+
+      let {description,imageUrl, title, newsUrl} = props;
         return (
           <div className="container my-3"  >
 
@@ -20,14 +20,15 @@ export default class NewsItem extends Component {
               
 
               <p> 
-             <strong>Author:</strong> {this.props.author}
+             <strong>Author:</strong> {props.author}
                 </p> 
-                <p className="my-4 text-muted">published at : {new Date(this.props.timeDate).toGMTString()}</p>
+                <p className="my-4 text-muted">published at : {new Date(props.timeDate).toGMTString()}</p>
               <a href={newsUrl} target="_blank" className="btn"  style={{backgroundColor: "cyan" , color:"black"}}>Read More</a>
              
             </div>
           </div>
           </div>
         )
-    }
+    
 }
+export default NewsItem;
